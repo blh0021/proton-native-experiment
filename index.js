@@ -11,8 +11,7 @@ class Example extends Component {
         <Menu label="File">
           <Menu.Item>Hi</Menu.Item>
         </Menu>
-        <Window title="Proton Native Rocks!" size={{ w: 300, h: 300 }}>
-          {/* all your other components go here*/}
+        <Window title="Ugly Browser" size={{ w: 1024, h: 768 }}>
           <Sample />
         </Window>
       </App>

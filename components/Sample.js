@@ -1,42 +1,48 @@
 import React, { Component } from 'react'; // import from react
 import axios from 'axios';
-import { Box, Grid, TextInput, Button, Text } from 'proton-native'; // import the proton-native components
+import { Box, Grid, TextInput, Button, Text, Separator } from 'proton-native'; // import the proton-native components
 
 export default class Sample extends Component {
 
     constructor() {
         super()
         this.updateResults = this.updateResults.bind(this)
+        this.getResults = this.getResults.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     state = {
+        url: "https://",
         results: "Testing some text out here."
     }
 
     updateResults(response) {
-        //console.log(response)
         this.setState({ results: response.data })
     }
 
-    componentWillMount() {
-        axios.get('http://www.harringtonweb.com')
+    getResults() {
+        axios.get(this.state.url)
             .then(this.updateResults)
             .catch(function (error) {
                 // handle error
                 console.log(error);
             })
-            .then(function () {
-                // always executed
-            });
+    }
+
+    handleChange(e) {
+        this.setState({ url: e })
     }
 
     render() { // all Components must have a render method
         return (
-            <Grid padded={false}>
-                <TextInput row={0} column={0} span={{ x: 1, y: 1 }} align={{ h: false, v: true }} />
-                <Button row={0} column={6} align={{ h: false, v: true }}>GO!</Button>
-                <Text row={1} column={0}>{this.state.results}</Text>
-            </Grid>
+            <Box>
+                <Box vertical={false}>
+                    <TextInput onChange={this.handleChange}>{this.state.url}</TextInput>
+                    <Button stretchy={true} onClick={this.getResults}>GO!</Button>
+                </Box>
+                <TextInput row={1} column={0} stretchy={true} children={this.state.results} multiline={true} />
+                
+            </Box>
         );
     }
 }
